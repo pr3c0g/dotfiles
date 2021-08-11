@@ -48,6 +48,7 @@ lvim.plugins = {
 
 -- require ~/.config/lvim/lua/user/functions.lua
 require "user.functions"
+require "user.cdc"
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 lvim.autocommands.custom_groups = {
