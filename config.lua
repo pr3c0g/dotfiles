@@ -41,6 +41,10 @@ lvim.builtin.which_key.mappings["t"] = {
 	l = { "<cmd>Trouble loclist<cr>", "LocationList" },
 	w = { "<cmd>Trouble lsp_workspace_diagnostics<cr>", "Diagnosticss" },
 }
+lvim.builtin.which_key.mappings["V"] = {
+	name = "+VimWiki",
+	T = { "<cmd>VimwikiTOC<cr>", "Generate TOC" },
+}
 -- lvim.builtin.which_key.mappings["D"] = {
 -- 	name = "+DAP",
 -- 	b = { ":lua require'dap'.toggle_breakpoint()<CR>" },
