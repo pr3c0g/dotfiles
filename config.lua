@@ -67,7 +67,9 @@ lvim.builtin.nvimtree.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
 lvim.builtin.dap.active = true
 lvim.builtin.terminal.direction = "horizontal"
+lvim.builtin.terminal.size = 15
 lvim.builtin.lualine.theme = "catppuccino"
+lvim.builtin.treesitter.indent = { enable = true, disable = { "yaml", "python" } }
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {}
