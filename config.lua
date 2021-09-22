@@ -43,7 +43,8 @@ lvim.builtin.which_key.mappings["t"] = {
 }
 lvim.builtin.which_key.mappings["V"] = {
 	name = "+VimWiki",
-	T = { "<cmd>VimwikiTOC<cr>", "Generate TOC" },
+	t = { "<cmd>VimwikiTOC<cr>", "Generate TOC" },
+	s = { ":VWS ", "Vimwiki Search" },
 }
 -- lvim.builtin.which_key.mappings["D"] = {
 -- 	name = "+DAP",
@@ -66,6 +67,17 @@ lvim.builtin.which_key.mappings["V"] = {
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.dashboard.active = true
+lvim.builtin.dashboard.custom_header = {
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+}
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
