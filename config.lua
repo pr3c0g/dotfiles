@@ -1,5 +1,4 @@
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
---# selene: allow(undefined_variable, unscoped_variables)
 
 -- general
 lvim.format_on_save = true
@@ -350,7 +349,7 @@ vim.cmd([[ command! Gpull term git pull --rebase ]])
 
 -- Lua stuff
 lvim.lang.lua.formatters = { { exe = "stylua" } }
-lvim.lang.lua.linters = { { exe = "selene" } }
+lvim.lang.lua.linters = { { exe = "luacheck" } }
 
 -- cdc stuff
 -- lvim.keys.normal_mode["<leader>S"] = ":e puppet/manifests/site.pp<CR>"
