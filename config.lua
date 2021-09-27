@@ -5,6 +5,11 @@ lvim.format_on_save = true
 lvim.lint_on_save = true
 lvim.colorscheme = "dark_catppuccino"
 lvim.lsp.diagnostics.virtual_text = false
+local components = require("core.lualine.components")
+lvim.builtin.lualine.sections.lualine_z = {
+	components.progress,
+	components.location,
+}
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = ","
@@ -31,6 +36,7 @@ end
 
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
+lvim.builtin.which_key.mappings["o"] = { "<cmd>SymbolsOutline<CR>", "Toggle SymbolsOutline" }
 lvim.builtin.which_key.mappings["t"] = {
 	name = "+Trouble",
 	r = { "<cmd>Trouble lsp_references<cr>", "References" },
@@ -139,6 +145,7 @@ lvim.plugins = {
 	--     config = function() require"lsp_signature".on_attach() end,
 	--     event = "InsertEnter"
 	-- },
+	{ "lunarvim/colorschemes" },
 	{ "rodjek/vim-puppet" },
 	{ "nathanielc/vim-tickscript" },
 	{ "tpope/vim-fugitive" },
@@ -332,7 +339,7 @@ lvim.autocommands.custom_groups = {
 }
 
 -- YAML stuff
-lvim.lang.yaml.formatters = { { exe = "prettier" } }
+lvim.lang.yaml.formatters = { { exe = "prettierd" } }
 
 -- Bash stuff
 -- lvim.lang.sh.formatters = { { exe = 'shfmt' } }
@@ -350,6 +357,12 @@ vim.cmd([[ command! Gpull term git pull --rebase ]])
 -- Lua stuff
 lvim.lang.lua.formatters = { { exe = "stylua" } }
 lvim.lang.lua.linters = { { exe = "luacheck" } }
+
+-- project.nvim stuff
+lvim.builtin.project.detection_methods = { "pattern" }
+
+-- json stuff
+lvim.lang.json.formatters = { { exe = "prettierd" } }
 
 -- cdc stuff
 -- lvim.keys.normal_mode["<leader>S"] = ":e puppet/manifests/site.pp<CR>"
