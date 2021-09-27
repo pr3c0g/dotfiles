@@ -1,7 +1,7 @@
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
 -- general
-lvim.format_on_save = true
+lvim.format_on_save = true -- this might be problematic with bash scripts, shfmt
 lvim.lint_on_save = true
 lvim.colorscheme = "dark_catppuccino"
 lvim.lsp.diagnostics.virtual_text = false
@@ -123,29 +123,8 @@ lvim.builtin.treesitter.highlight.enabled = true
 --   end
 -- end
 
--- set a formatter if you want to override the default lsp one (if it exists)
--- lvim.lang.python.formatters = {
---   {
---     exe = "black",
---     args = {}
---   }
--- }
--- set an additional linter
--- lvim.lang.python.linters = {
---   {
---     exe = "flake8",
---     args = {}
---   }
--- }
-
 -- Additional Plugins
 lvim.plugins = {
-	-- {"folke/tokyonight.nvim"}, {
-	--     "ray-x/lsp_signature.nvim",
-	--     config = function() require"lsp_signature".on_attach() end,
-	--     event = "InsertEnter"
-	-- },
-	{ "lunarvim/colorschemes" },
 	{ "rodjek/vim-puppet" },
 	{ "nathanielc/vim-tickscript" },
 	{ "tpope/vim-fugitive" },
@@ -306,7 +285,7 @@ vim.g.vimwiki_list = {
 }
 
 -- General settings
--- lvim.format_on_save = false -- because of shfmt
+-- lvim.format_on_save = false
 
 -- Treesitter settings
 require("nvim-treesitter.configs").setup({
