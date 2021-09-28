@@ -5,11 +5,6 @@ lvim.format_on_save = true -- this might be problematic with bash scripts, shfmt
 lvim.lint_on_save = true
 lvim.colorscheme = "dark_catppuccino"
 lvim.lsp.diagnostics.virtual_text = false
-local components = require("core.lualine.components")
-lvim.builtin.lualine.sections.lualine_z = {
-	components.progress,
-	components.location,
-}
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = ","
@@ -342,6 +337,13 @@ lvim.builtin.project.detection_methods = { "pattern" }
 
 -- json stuff
 lvim.lang.json.formatters = { { exe = "prettierd" } }
+
+-- UI stuff
+local components = require("core.lualine.components")
+lvim.builtin.lualine.sections.lualine_z = {
+	components.progress,
+	components.location,
+}
 
 -- cdc stuff
 -- lvim.keys.normal_mode["<leader>S"] = ":e puppet/manifests/site.pp<CR>"
