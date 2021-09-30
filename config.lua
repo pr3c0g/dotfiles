@@ -78,12 +78,9 @@ lvim.builtin.dashboard.custom_header = {
 	"",
 	"",
 }
-lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
 lvim.builtin.dap.active = true
-lvim.builtin.terminal.direction = "horizontal"
-lvim.builtin.terminal.size = 15
 lvim.builtin.lualine.theme = "catppuccino"
 lvim.builtin.treesitter.indent = { enable = true, disable = { "yaml", "python" } }
 
@@ -257,6 +254,10 @@ lvim.plugins = {
 			},
 		}),
 	},
+	{
+		"nvim-telescope/telescope-media-files.nvim",
+		require("telescope").load_extension("media_files"),
+	},
 }
 
 -- VimWiki setup
@@ -321,8 +322,9 @@ lvim.lang.yaml.formatters = { { exe = "prettierd" } }
 -- Python stuff
 lvim.lang.python.formatters = { { exe = "black" } }
 lvim.lang.python.linters = { { exe = "flake8" } }
-local dap_install = require("dap-install")
-dap_install.config("python", {})
+
+-- local dap_install = require("dap-install")
+-- dap_install.config("python", {})
 
 -- Git stuff
 vim.cmd([[ command! Gpush term git push ]])
@@ -345,5 +347,22 @@ lvim.builtin.lualine.sections.lualine_z = {
 	components.location,
 }
 
+-- Telescope stuff
+lvim.builtin.telescope.defaults.file_ignore_patterns = { "govc" }
+
+-- ToggleTerm stuff
+lvim.builtin.terminal.active = true
+lvim.builtin.terminal.direction = "horizontal"
+lvim.builtin.terminal.size = 15
+lvim.builtin.terminal.shade_terminals = "true"
+
+-- barbar stuff
+lvim.keys.normal_mode["<leader>bP"] = ":BufferPin<CR>"
+lvim.keys.normal_mode["<leader>bp"] = ":BufferPick<CR>"
+
 -- cdc stuff
 -- lvim.keys.normal_mode["<leader>S"] = ":e puppet/manifests/site.pp<CR>"
+
+-- Debug stuff
+-- lvim.debug = true
+-- lvim.log.level = "debug"
