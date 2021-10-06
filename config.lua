@@ -78,6 +78,7 @@ lvim.builtin.dashboard.custom_header = {
 	"",
 	"",
 }
+
 lvim.builtin.nvimtree.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
 lvim.builtin.dap.active = true
@@ -207,6 +208,7 @@ lvim.plugins = {
 				"neogitstatus",
 				"NvimTree",
 				"Trouble",
+        "[Scratch]",
 				"", -- for all buffers without a file type
 			}
 			vim.g.indent_blankline_buftype_exclude = { "terminal" }
@@ -317,7 +319,7 @@ lvim.autocommands.custom_groups = {
 lvim.lang.yaml.formatters = { { exe = "prettierd" } }
 
 -- Bash stuff
--- lvim.lang.sh.formatters = { { exe = 'shfmt' } }
+-- lvim.lang.sh.formatters = { { exe = "shfmt" } }
 
 -- Python stuff
 lvim.lang.python.formatters = { { exe = "black" } }
@@ -366,3 +368,5 @@ lvim.keys.normal_mode["<leader>bp"] = ":BufferPick<CR>"
 -- Debug stuff
 -- lvim.debug = true
 -- lvim.log.level = "debug"
+
+-- Currently testing
