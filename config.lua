@@ -1,8 +1,8 @@
--- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
+-- luacheck: globals lvim vim
 
 -- general
-lvim.format_on_save = true -- this might be problematic with bash scripts, shfmt
-lvim.lint_on_save = true
+lvim.log.level = "warn"
+lvim.format_on_save = true
 lvim.colorscheme = "dark_catppuccino"
 lvim.lsp.diagnostics.virtual_text = false
 
@@ -11,10 +11,6 @@ lvim.leader = ","
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<leader><space>"] = ":noh<CR>"
--- unmap a default keymapping
--- lvim.keys.normal_mode["<C-Up>"] = ""
--- edit a default keymapping
--- lvim.keys.normal_mode["<C-q>"] = ":q<cr>"
 
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
 lvim.builtin.telescope.on_config_done = function()
@@ -31,90 +27,54 @@ end
 
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
-lvim.builtin.which_key.mappings["o"] = { "<cmd>SymbolsOutline<CR>", "Toggle SymbolsOutline" }
 lvim.builtin.which_key.mappings["t"] = {
 	name = "+Trouble",
 	r = { "<cmd>Trouble lsp_references<cr>", "References" },
 	f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
-	d = { "<cmd>Trouble lsp_document_diagnostics<cr>", "Diagnosticss" },
+	d = { "<cmd>Trouble lsp_document_diagnostics<cr>", "Diagnostics" },
 	q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
 	l = { "<cmd>Trouble loclist<cr>", "LocationList" },
-	w = { "<cmd>Trouble lsp_workspace_diagnostics<cr>", "Diagnosticss" },
+	w = { "<cmd>Trouble lsp_workspace_diagnostics<cr>", "Diagnostics" },
 }
 lvim.builtin.which_key.mappings["V"] = {
 	name = "+VimWiki",
 	t = { "<cmd>VimwikiTOC<cr>", "Generate TOC" },
 	s = { ":VWS ", "Vimwiki Search" },
 }
--- lvim.builtin.which_key.mappings["D"] = {
--- 	name = "+DAP",
--- 	b = { ":lua require'dap'.toggle_breakpoint()<CR>" },
--- 	B = { ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>" },
--- 	lp = { ":lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>" },
--- 	dr = { ":lua require'dap'.repl.open()<CR>" },
--- 	dl = { ":lua require'dap'.run_last()<CR>" },
--- }
--- lvim.builtin.which_key.mappings["S"] = {
--- 	name = "Spectre",
--- 	S = { "<cmd>:lua require('spectre').open()<cr>", "Open Spectre" },
--- 	sw = { "<cmd>:lua require('spectre').open_visual({select_word=true})<CR>", "Search current word" },
--- 	sp = { "<cmd>:lua require('spectre').open_file_search()<cr>", "Search current file" },
--- 	-- vnoremap <leader>s :lua require('spectre').open_visual()<CR>
--- 	-- "  search in current file
--- 	-- nnoremap <leader>sp viw:lua require('spectre').open_file_search()<cr>
--- }
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.dashboard.active = true
-lvim.builtin.dashboard.custom_header = {
-	"",
-	"",
-	"",
-	"",
-	"",
-	"",
-	"",
-	"",
-	"",
-}
-
-lvim.builtin.nvimtree.side = "left"
+lvim.builtin.dashboard.custom_header = {}
+lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
-lvim.builtin.dap.active = true
 lvim.builtin.lualine.theme = "catppuccino"
 lvim.builtin.treesitter.indent = { enable = true, disable = { "yaml", "python" } }
 
 -- if you don't want all the parsers change this to a table of the ones you want
-lvim.builtin.treesitter.ensure_installed = {}
+lvim.builtin.treesitter.ensure_installed = {
+	"bash",
+	"c",
+	"javascript",
+	"json",
+	"lua",
+	"python",
+	"typescript",
+	"css",
+	"rust",
+	"java",
+	"yaml",
+}
+
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 
--- generic LSP settings
--- you can set a custom on_attach function that will be used for all the language servers
--- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
--- lvim.lsp.on_attach_callback = function(client, bufnr)
---   local function buf_set_option(...)
---     vim.api.nvim_buf_set_option(bufnr, ...)
---   end
---   --Enable completion triggered by <c-x><c-o>
---   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
--- end
--- you can overwrite the null_ls setup table (useful for setting the root_dir function)
--- lvim.lsp.null_ls.setup = {
---   root_dir = require("lspconfig").util.root_pattern("Makefile", ".git", "node_modules"),
--- }
--- or if you need something more advanced
--- lvim.lsp.null_ls.setup.root_dir = function(fname)
---   if vim.bo.filetype == "javascript" then
---     return require("lspconfig/util").root_pattern("Makefile", ".git", "node_modules")(fname)
---       or require("lspconfig/util").path.dirname(fname)
---   elseif vim.bo.filetype == "php" then
---     return require("lspconfig/util").root_pattern("Makefile", ".git", "composer.json")(fname) or vim.fn.getcwd()
---   else
---     return require("lspconfig/util").root_pattern("Makefile", ".git")(fname) or require("lspconfig/util").path.dirname(fname)
---   end
--- end
+lvim.lang.python.formatters = { { exe = "black" } }
+lvim.lang.python.linters = { { exe = "flake8" } }
+lvim.lang.yaml.formatters = { { exe = "prettierd" } }
+lvim.lang.lua.formatters = { { exe = "stylua" } }
+lvim.lang.lua.linters = { { exe = "luacheck" } }
+lvim.lang.json.formatters = { { exe = "prettierd" } }
 
 -- Additional Plugins
 lvim.plugins = {
@@ -123,129 +83,12 @@ lvim.plugins = {
 	{ "tpope/vim-fugitive" },
 	{ "tpope/vim-surround" },
 	{ "folke/trouble.nvim", cmd = "TroubleToggle" },
-	{
-		"Pocco81/Catppuccino.nvim",
-		require("catppuccino").setup({
-			colorscheme = "dark_catppuccino",
-			transparency = false,
-			term_colors = false,
-			styles = {
-				comments = "italic",
-				functions = "italic",
-				keywords = "italic",
-				strings = "NONE",
-				variables = "NONE",
-			},
-			integrations = {
-				treesitter = true,
-				native_lsp = {
-					enabled = true,
-					virtual_text = {
-						errors = "italic",
-						hints = "italic",
-						warnings = "italic",
-						information = "italic",
-					},
-					underlines = {
-						errors = "underline",
-						hints = "underline",
-						warnings = "underline",
-						information = "underline",
-					},
-				},
-				lsp_trouble = false,
-				lsp_saga = false,
-				gitgutter = false,
-				gitsigns = false,
-				telescope = false,
-				nvimtree = {
-					enabled = false,
-					show_root = false,
-				},
-				which_key = true,
-				indent_blankline = {
-					enabled = true,
-					colored_indent_levels = true,
-				},
-				dashboard = true,
-				neogit = false,
-				vim_sneak = false,
-				fern = false,
-				barbar = false,
-				bufferline = false,
-				markdown = false,
-				lightspeed = false,
-				ts_rainbow = true,
-				hop = false,
-			},
-		}),
-	},
-	{
-		"lukas-reineke/indent-blankline.nvim",
-		event = "BufRead",
-		setup = function()
-			vim.g.indentLine_enabled = 1
-			vim.g.indent_blankline_char = "▏"
-			vim.g.indent_blankline_filetype_exclude = {
-				"log",
-				"gitcommit",
-				"vimwiki",
-				"markdown",
-				"json",
-				"txt",
-				"vista",
-				"NvimTree",
-				"git",
-				"TelescopePrompt",
-				"undotree",
-				"flutterToolsOutline",
-				"org",
-				"orgagenda",
-				"help",
-				"startify",
-				"dashboard",
-				"packer",
-				"neogitstatus",
-				"NvimTree",
-				"Trouble",
-        "[Scratch]",
-				"", -- for all buffers without a file type
-			}
-			vim.g.indent_blankline_buftype_exclude = { "terminal" }
-			vim.g.indent_blankline_show_trailing_blankline_indent = false
-			vim.g.indent_blankline_show_first_indent_level = false
-		end,
-	},
-	{
-		"karb94/neoscroll.nvim",
-		event = "WinScrolled",
-		config = function()
-			require("neoscroll").setup({
-				-- All these keys will be mapped to their corresponding default scrolling animation
-				mappings = { "<C-u>", "<C-d>", "<C-b>", "<C-f>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
-				hide_cursor = true, -- Hide cursor while scrolling
-				stop_eof = true, -- Stop at <EOF> when scrolling downwards
-				use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
-				respect_scrolloff = false, -- Stop scrolling when the cursor reaches the scrolloff margin of the file
-				cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
-				easing_function = nil, -- Default easing function
-				pre_hook = nil, -- Function to run before the scrolling animation starts
-				post_hook = nil, -- Function to run after the scrolling animation ends
-			})
-			-- lua require(neoscroll).scroll
-			-- lua require('neoscroll').scroll(-10, true, 300)
-		end,
-	},
-	{ "vimwiki/vimwiki" },
+	{ "Pocco81/Catppuccino.nvim" },
 	{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+	{ "vimwiki/vimwiki" },
 	{ "simrat39/symbols-outline.nvim" },
-	-- {
-	-- 	"windwp/nvim-spectre",
-	-- 	event = "BufRead",
-	-- 	config = function()
-	-- 		require("spectre").setup()
-	-- 	end,
-	-- },
+	{ "ellisonleao/glow.nvim" },
+	{ "is0n/fm-nvim" },
 	{
 		"p00f/nvim-ts-rainbow",
 		require("nvim-treesitter.configs").setup({
@@ -257,12 +100,35 @@ lvim.plugins = {
 		}),
 	},
 	{
-		"nvim-telescope/telescope-media-files.nvim",
-		require("telescope").load_extension("media_files"),
+		"nvim-neorg/neorg",
+		config = function()
+			require("user.neorg")
+		end,
+		requires = "nvim-lua/plenary.nvim",
 	},
 }
 
--- VimWiki setup
+-- Telescope stuff
+lvim.builtin.telescope.extensions.fzy = {
+	fuzzy = true, -- false will only do exact matching
+	override_generic_sorter = false, -- override the generic sorter
+	override_file_sorter = true, -- override the file sorter
+	case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+	-- the default case_mode is "smart_case"
+}
+lvim.builtin.telescope.on_config_done = function()
+	require("telescope").load_extension("fzf")
+end
+lvim.builtin.telescope.defaults.file_ignore_patterns = { "govc" }
+
+-- Project.nvim stuff
+lvim.builtin.project.detection_methods = { "pattern" }
+
+-- Git stuff
+vim.cmd([[ command! Gpush term git push ]])
+vim.cmd([[ command! Gpull term git pull --rebase ]])
+
+-- VimWiki stuff
 vim.g.vimwiki_list = {
 	{
 		auto_diary_index = 1,
@@ -282,76 +148,6 @@ vim.g.vimwiki_list = {
 	},
 }
 
--- General settings
--- lvim.format_on_save = false
-
--- Treesitter settings
-require("nvim-treesitter.configs").setup({
-	incremental_selection = {
-		enable = true,
-		keymaps = {
-			init_selection = "gnn",
-			node_incremental = "gnn",
-			scope_incremental = "gns",
-			node_decremental = "gnp",
-		},
-	},
-})
-
--- Telescope settings
-lvim.builtin.telescope.extensions.fzy = {
-	fuzzy = true, -- false will only do exact matching
-	override_generic_sorter = false, -- override the generic sorter
-	override_file_sorter = true, -- override the file sorter
-	case_mode = "smart_case", -- or "ignore_case" or "respect_case"
-	-- the default case_mode is "smart_case"
-}
-lvim.builtin.telescope.on_config_done = function()
-	require("telescope").load_extension("fzf")
-end
-
--- Autocommands (https://neovim.io/doc/user/autocmd.html)
-lvim.autocommands.custom_groups = {
-	{ "BufWinEnter", "*.md", "set nospell" },
-}
-
--- YAML stuff
-lvim.lang.yaml.formatters = { { exe = "prettierd" } }
-
--- Bash stuff
--- lvim.lang.sh.formatters = { { exe = "shfmt" } }
-
--- Python stuff
-lvim.lang.python.formatters = { { exe = "black" } }
-lvim.lang.python.linters = { { exe = "flake8" } }
-
--- local dap_install = require("dap-install")
--- dap_install.config("python", {})
-
--- Git stuff
-vim.cmd([[ command! Gpush term git push ]])
-vim.cmd([[ command! Gpull term git pull --rebase ]])
-
--- Lua stuff
-lvim.lang.lua.formatters = { { exe = "stylua" } }
-lvim.lang.lua.linters = { { exe = "luacheck" } }
-
--- project.nvim stuff
-lvim.builtin.project.detection_methods = { "pattern" }
-
--- json stuff
-lvim.lang.json.formatters = { { exe = "prettierd" } }
-
--- UI stuff
-local components = require("core.lualine.components")
-lvim.builtin.lualine.sections.lualine_z = {
-	components.progress,
-	components.location,
-}
-
--- Telescope stuff
-lvim.builtin.telescope.defaults.file_ignore_patterns = { "govc" }
-
 -- ToggleTerm stuff
 lvim.builtin.terminal.active = true
 lvim.builtin.terminal.direction = "horizontal"
@@ -362,11 +158,9 @@ lvim.builtin.terminal.shade_terminals = "true"
 lvim.keys.normal_mode["<leader>bP"] = ":BufferPin<CR>"
 lvim.keys.normal_mode["<leader>bp"] = ":BufferPick<CR>"
 
--- cdc stuff
--- lvim.keys.normal_mode["<leader>S"] = ":e puppet/manifests/site.pp<CR>"
-
--- Debug stuff
--- lvim.debug = true
--- lvim.log.level = "debug"
-
--- Currently testing
+-- -- UI stuff
+-- local components = require("core.lualine.components")
+-- lvim.builtin.lualine.sections.lualine_z = {
+-- 	components.progress,
+-- 	components.location,
+-- }
