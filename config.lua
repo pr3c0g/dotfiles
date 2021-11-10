@@ -1,10 +1,7 @@
--- luacheck: globals lvim vim
-
 -- general
-lvim.log.level = "warn"
-lvim.format_on_save = true
 lvim.colorscheme = "dark_catppuccino"
 lvim.lsp.diagnostics.virtual_text = false
+-- lvim.config.options.relativenumber = true
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = ","
@@ -13,17 +10,17 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.normal_mode["<leader><space>"] = ":noh<CR>"
 
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
-lvim.builtin.telescope.on_config_done = function()
-	local actions = require("telescope.actions")
-	-- for input mode
-	lvim.builtin.telescope.defaults.mappings.i["<C-j>"] = actions.move_selection_next
-	lvim.builtin.telescope.defaults.mappings.i["<C-k>"] = actions.move_selection_previous
-	lvim.builtin.telescope.defaults.mappings.i["<C-n>"] = actions.cycle_history_next
-	lvim.builtin.telescope.defaults.mappings.i["<C-p>"] = actions.cycle_history_prev
-	-- for normal mode
-	lvim.builtin.telescope.defaults.mappings.n["<C-j>"] = actions.move_selection_next
-	lvim.builtin.telescope.defaults.mappings.n["<C-k>"] = actions.move_selection_previous
-end
+-- lvim.builtin.telescope.on_config_done = function()
+-- 	local actions = require("telescope.actions")
+-- 	-- for input mode
+-- 	lvim.builtin.telescope.defaults.mappings.i["<C-j>"] = actions.move_selection_next
+-- 	lvim.builtin.telescope.defaults.mappings.i["<C-k>"] = actions.move_selection_previous
+-- 	lvim.builtin.telescope.defaults.mappings.i["<C-n>"] = actions.cycle_history_next
+-- 	lvim.builtin.telescope.defaults.mappings.i["<C-p>"] = actions.cycle_history_prev
+-- 	-- for normal mode
+-- 	lvim.builtin.telescope.defaults.mappings.n["<C-j>"] = actions.move_selection_next
+-- 	lvim.builtin.telescope.defaults.mappings.n["<C-k>"] = actions.move_selection_previous
+-- end
 
 -- Use which-key to add extra bindings with the leader-key prefix
 lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
@@ -41,12 +38,11 @@ lvim.builtin.which_key.mappings["V"] = {
 	t = { "<cmd>VimwikiTOC<cr>", "Generate TOC" },
 	s = { ":VWS ", "Vimwiki Search" },
 }
-
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.dashboard.active = true
 lvim.builtin.dashboard.custom_header = {}
-lvim.builtin.nvimtree.setup.view.side = "left"
+
 lvim.builtin.nvimtree.show_icons.git = 0
 lvim.builtin.lualine.theme = "catppuccino"
 lvim.builtin.treesitter.indent = { enable = true, disable = { "yaml", "python" } }
@@ -69,13 +65,6 @@ lvim.builtin.treesitter.ensure_installed = {
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 
-lvim.lang.python.formatters = { { exe = "black" } }
-lvim.lang.python.linters = { { exe = "flake8" } }
-lvim.lang.yaml.formatters = { { exe = "prettierd" } }
-lvim.lang.lua.formatters = { { exe = "stylua" } }
-lvim.lang.lua.linters = { { exe = "luacheck" } }
-lvim.lang.json.formatters = { { exe = "prettierd" } }
-
 -- Additional Plugins
 lvim.plugins = {
 	{ "rodjek/vim-puppet" },
@@ -84,7 +73,7 @@ lvim.plugins = {
 	{ "tpope/vim-surround" },
 	{ "folke/trouble.nvim", cmd = "TroubleToggle" },
 	{ "Pocco81/Catppuccino.nvim" },
-	{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+	-- { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
 	{ "vimwiki/vimwiki" },
 	{ "simrat39/symbols-outline.nvim" },
 	{ "ellisonleao/glow.nvim" },
@@ -96,15 +85,56 @@ lvim.plugins = {
 				enable = true,
 				extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
 				max_file_lines = nil, -- Do not enable for files with more than n lines, int
+				-- colors = {}, -- table of hex strings
+				-- termcolors = {} -- table of colour name strings
 			},
 		}),
 	},
 	{
 		"nvim-neorg/neorg",
 		config = function()
-			require("user.neorg")
+			require("neorg").setup({
+				-- Tell Neorg what modules to load
+				load = {
+					["core.defaults"] = {}, -- Load all the default modules
+					["core.norg.concealer"] = {}, -- Allows for use of icons
+					["core.norg.qol.todo_items"] = {},
+					["core.keybinds"] = { -- Configure core.keybinds
+						config = {
+							default_keybinds = true, -- Generate the default keybinds
+							neorg_leader = "<Leader>o", -- This is the default if unspecified
+						},
+					},
+					["core.norg.dirman"] = { -- Manage your directories with Neorg
+						config = {
+							workspaces = {
+								personal = "~/neorg",
+								work = "~/R3/2_CDC/neorg",
+							},
+						},
+					},
+				},
+			})
 		end,
 		requires = "nvim-lua/plenary.nvim",
+		after = { "nvim-treesitter", "telescope.nvim" },
+	},
+	-- {
+	-- 	"luukvbaal/stabilize.nvim",
+	-- 	config = function()
+	-- 		require("stabilize").setup()
+	-- 	end,
+	-- },
+}
+
+-- Neorg stuff
+local parser_configs = require("nvim-treesitter.parsers").get_parser_configs()
+
+parser_configs.norg = {
+	install_info = {
+		url = "https://github.com/nvim-neorg/tree-sitter-norg",
+		files = { "src/parser.c", "src/scanner.cc" },
+		branch = "main",
 	},
 }
 
@@ -116,9 +146,6 @@ lvim.builtin.telescope.extensions.fzy = {
 	case_mode = "smart_case", -- or "ignore_case" or "respect_case"
 	-- the default case_mode is "smart_case"
 }
-lvim.builtin.telescope.on_config_done = function()
-	require("telescope").load_extension("fzf")
-end
 lvim.builtin.telescope.defaults.file_ignore_patterns = { "govc" }
 
 -- Project.nvim stuff
@@ -164,3 +191,6 @@ lvim.keys.normal_mode["<leader>bp"] = ":BufferPick<CR>"
 -- 	components.progress,
 -- 	components.location,
 -- }
+
+lvim.log.level = "DEBUG"
+lvim.format_on_save = true
