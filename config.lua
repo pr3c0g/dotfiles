@@ -1,6 +1,6 @@
 -- general
-lvim.colorscheme = "dark_catppuccino"
-lvim.lsp.diagnostics.virtual_text = false
+lvim.colorscheme = "nightfox"
+lvim.lsp.diagnostics.virtual_text = true
 -- lvim.config.options.relativenumber = true
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
@@ -44,7 +44,6 @@ lvim.builtin.dashboard.active = true
 lvim.builtin.dashboard.custom_header = {}
 
 lvim.builtin.nvimtree.show_icons.git = 0
-lvim.builtin.lualine.theme = "catppuccino"
 lvim.builtin.treesitter.indent = { enable = true, disable = { "yaml", "python" } }
 
 -- if you don't want all the parsers change this to a table of the ones you want
@@ -72,7 +71,6 @@ lvim.plugins = {
 	{ "tpope/vim-fugitive" },
 	{ "tpope/vim-surround" },
 	{ "folke/trouble.nvim", cmd = "TroubleToggle" },
-	{ "Pocco81/Catppuccino.nvim" },
 	-- { "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
 	{ "vimwiki/vimwiki" },
 	{ "simrat39/symbols-outline.nvim" },
@@ -94,8 +92,8 @@ lvim.plugins = {
 		"nvim-neorg/neorg",
 		config = function()
 			require("neorg").setup({
-				-- Tell Neorg what modules to load
 				load = {
+         -- Tell Neorg what modules to load
 					["core.defaults"] = {}, -- Load all the default modules
 					["core.norg.concealer"] = {}, -- Allows for use of icons
 					["core.norg.qol.todo_items"] = {},
@@ -119,12 +117,7 @@ lvim.plugins = {
 		requires = "nvim-lua/plenary.nvim",
 		after = { "nvim-treesitter", "telescope.nvim" },
 	},
-	-- {
-	-- 	"luukvbaal/stabilize.nvim",
-	-- 	config = function()
-	-- 		require("stabilize").setup()
-	-- 	end,
-	-- },
+  { "EdenEast/nightfox.nvim" },
 }
 
 -- Neorg stuff
@@ -193,4 +186,22 @@ lvim.keys.normal_mode["<leader>bp"] = ":BufferPick<CR>"
 -- }
 
 lvim.log.level = "DEBUG"
-lvim.format_on_save = true
+lvim.format_on_save = false
+
+local linters = require("lvim.lsp.null-ls.linters")
+linters.setup({
+	-- { exe = "puppet-lint", filetypes = {"puppet"} },
+	{ exe = "shellcheck", args = { "--severity", "warning" } },
+	{ exe = "luacheck" },
+})
+
+local formatters = require("lvim.lsp.null-ls.formatters")
+formatters.setup({
+	{
+		exe = "prettier",
+		---@usage arguments to pass to the formatter
+		-- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
+		args = { "--print-with", "100" },
+	},
+	{ exe = "stylua" },
+})
