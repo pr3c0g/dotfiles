@@ -1,0 +1,43 @@
+"$schema" = "https://starship.rs/config-schema.json"
+
+### Theming configs
+palette = "terafox"
+
+[palettes.terafox]
+red = "#e85c51"
+green = "#7aa4a1"
+purple = "#ad5c7c"
+yellow = "#fda47f"
+os_bg = "#587b7b"
+os_fg = "#0f1c1e"
+dir_bg = "#7aa4a1"
+dir_fg = "#152528"
+git_bg = "#fda47f"
+git_fg = "#1d3337"
+lang_bg = "#5a93aa"
+lang_fg = "#254147"
+
+[username]
+show_always = true
+
+[character]
+disabled = false
+success_symbol = '[𝄢](bold fg:#7aa4a1)'
+error_symbol = '[𝄢](bold fg:#e85c51)'
+vimcmd_symbol = '[𝄢](bold fg:green)'
+vimcmd_replace_one_symbol = '[𝄢](bold fg:purple)'
+vimcmd_replace_symbol = '[𝄢](bold fg:purple)'
+vimcmd_visual_symbol = '[𝄢](bold fg:yellow)'
+
+[time]
+disabled = false
+
+### Language stuff
+[c]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[java]
+disabled = true
