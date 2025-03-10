@@ -1,18 +1,8 @@
-# Profile start up time on demand
-
-#export ZPROF="true"
-
-[ -z "$ZPROF" ] || zmodload zsh/zprof
-
 ZSH_AUTOSUGGST_USE_ASYNC="true"
 fpath+=~/.zfunc
 
-# Store begginning timestamp and duration
+# Store beginning timestamp and duration
 setopt EXTENDED_HISTORY
-
-### pre-antigen bundles sources
-# source ~/.config/zsh/catppuccin_mocha-zsh-syntax-highlighting.zsh
-###
 
 ### auto-completions
 # https://gist.github.com/ctechols/ca1035271ad134841284
@@ -51,6 +41,10 @@ source ~/.config/zsh/functions.sh
 source ~/.config/zsh/aliases.sh
 source ~/.config/zsh/exports.sh
 source ~/.local/share/lscolors.sh
+
+source /opt/homebrew/opt/chruby/share/chruby/chruby.sh
+source /opt/homebrew/opt/chruby/share/chruby/auto.sh
+
 ###
 
 ### inits
@@ -75,13 +69,3 @@ zle -N kitty_scrollback_edit_command_line
 
 bindkey '^x^e' kitty_scrollback_edit_command_line
 
-### slow AF
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# Profile start up time on demand
-[ -z "$ZPROF" ] || zprof
-
-source /Users/pr3c0g/Library/Application\ Support/org.dystroy.broot/launcher/bash/br
-# eval "$(uv generate-shell-completion zsh)"
